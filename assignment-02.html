@@ -6,20 +6,21 @@
 </head>
 <body>
 
-    <div class="container">
-        <div class="center-cir">
-
-            <div class="top-left"></div>
-            <div class="top-left-black"></div>
-            <div class="top-right"></div>
-            <div class="bottom-left"></div>
-            <div class="bottom-right"></div>
-            <div class="display">00</div>
-            <button class="start-button">START</button>
-            <div class="display">00</div>
-            <div class="led"></div>
+    <div id="container">
+        <div id="center-cir">
+            <div id="top-left" onclick="ButtonPressed(0)" ></div>
+            <div id="top-right" onclick="ButtonPressed(1)"></div>
+            <div id="bottom-left" onclick="ButtonPressed(2)"></div>
+            <div id="bottom-right" onclick="ButtonPressed(3)"></div>
+            <div id="display1">00</div>
+            <button id="start-button" onclick="StartGame()" >START</button>
+            <div id="display2">00</div>
+            <div id="led"></div>
         </div>
     </div>
+
+
+    <script src="assignment-02.js"></script>
 
 </body>
 </html>

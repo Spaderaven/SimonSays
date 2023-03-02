@@ -1,4 +1,4 @@
-.container{
+#container{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -7,8 +7,7 @@
     height: 100vh;
 }
 
-
-.center-cir{
+#center-cir{
     border-radius: 50%;
     width: 500px;
     height: 500px;
@@ -19,40 +18,37 @@
     justify-content: center;
 }
 
-.top-left{
+#top-left{
     border-radius: 50%;
     width: 200px;
     height: 200px;
-    background-color: red;
+    background-color: green;
     position: absolute;
     top: -50px;
     left: -50px;
     border: 15px solid black;
 }
 
-.top-right{
+#top-left:active {     
+    background-color: lightgreen !important;   
+}
+
+#top-right{
     border-radius: 50%;
     width: 200px;
     height: 200px;
-    background-color: blue;
+    background-color: red;
     position: absolute;
     top: -50px;
     right: -50px;
     border: 15px solid black;
 }
 
-.bottom-right{
-    border-radius: 50%;
-    width: 200px;
-    height: 200px;
-    background-color: green;
-    position: absolute;
-    bottom: -50px;
-    right: -50px;
-    border: 15px solid black;
+#top-right:active {     
+    background-color: lightpink !important;   
 }
 
-.bottom-left{
+#bottom-left{
     border-radius: 50%;
     width: 200px;
     height: 200px;
@@ -63,7 +59,26 @@
     border: 15px solid black;
 }
 
-.display{
+#bottom-left:active {     
+    background-color: lightgoldenrodyellow !important;   
+}
+
+#bottom-right{
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    background-color: blue;
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    border: 15px solid black;
+}
+
+#bottom-right:active {     
+    background-color: lightblue !important;   
+}
+
+#display1{
     color: white;
     background-color: gray;
     margin: 10px;
@@ -71,11 +86,19 @@
     border-radius: 5px;
 }
 
-.start-button{
+#display2{
+    color: white;
+    background-color: gray;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#start-button{
     padding: 5px;
 }
 
-.led{
+#led{
     border-radius: 50%;
     width: 10px;
     height: 10px;
