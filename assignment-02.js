@@ -67,8 +67,6 @@ function PlayerSpeak() {
 
     interID = setInterval(() => {
         if(!playerPress) {
-            
-            
             clearInterval(interID);
             EndGame();
         }
@@ -82,11 +80,9 @@ function EndGame() {
     FlashEnding();
     document.getElementById("start-button").style.pointerEvents = "all";
     
-    
     clearInterval(interID);
 
     topScore = parseInt(document.getElementById("display1").innerHTML)
-    
     lastScore = totalSimon-1;
 
     if (lastScore > topScore) {
@@ -99,26 +95,6 @@ function EndGame() {
     playerPress = false;
     totalSimon = 0;
     waitTime = 600;
-}
-
-// Flashes all colors 5 times when game is lost
-const FlashEnding = async () => {
-
-    for (let i = 0; i < 5; i++) {
-        document.getElementById("top-left").style.backgroundColor = "lightgreen";
-        document.getElementById("top-right").style.backgroundColor = "lightpink";
-        document.getElementById("bottom-left").style.backgroundColor = "lightgoldenrodyellow";
-        document.getElementById("bottom-right").style.backgroundColor = "lightblue";
-        
-        await sleep(300)
-
-        document.getElementById("top-left").style.backgroundColor = "green";
-        document.getElementById("top-right").style.backgroundColor = "red";
-        document.getElementById("bottom-left").style.backgroundColor = "yellow";
-        document.getElementById("bottom-right").style.backgroundColor = "blue";
-
-        await sleep(300)
-    }
 }
 
 // Checks if the button press is the correct button 
@@ -163,6 +139,25 @@ async function ButtonPressed (button) {
 
 }
 
+// Flashes all colors 5 times when game is lost
+const FlashEnding = async () => {
+
+    for (let i = 0; i < 5; i++) {
+        document.getElementById("top-left").style.backgroundColor = "lightgreen";
+        document.getElementById("top-right").style.backgroundColor = "lightpink";
+        document.getElementById("bottom-left").style.backgroundColor = "lightgoldenrodyellow";
+        document.getElementById("bottom-right").style.backgroundColor = "lightblue";
+        
+        await sleep(300)
+
+        document.getElementById("top-left").style.backgroundColor = "green";
+        document.getElementById("top-right").style.backgroundColor = "red";
+        document.getElementById("bottom-left").style.backgroundColor = "yellow";
+        document.getElementById("bottom-right").style.backgroundColor = "blue";
+
+        await sleep(300)
+    }
+}
 
 // These functions just flash the color that Simon needs
 async function FlashGreen() {
@@ -188,3 +183,4 @@ async function FlashBlue() {
     await sleep(300)
     document.getElementById("bottom-right").style.backgroundColor = "blue";
 }
+
