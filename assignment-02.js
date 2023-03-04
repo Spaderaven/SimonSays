@@ -32,7 +32,6 @@ async function StartGame() {
 function AddSimon() {
     simon.push(getRandom());
     totalSimon++;
-    console.log("Simon: ", simon);
     SimonSpeak();
 }
 
@@ -54,7 +53,6 @@ const SimonSpeak = async () => {
         }
     }
 
-    console.log("MY TUUUURN");
     playerCurrent = 0;
     playerPress = false;
     simonSpeaking = false;
@@ -65,14 +63,12 @@ const SimonSpeak = async () => {
 // An interval with 5secs which checks if the player press a button or times them out
 function PlayerSpeak() {
 
-    // console.log("FINSHD?", finish);
     if(finish) return;
 
-    // console.log("FINSHD?", finish);
     interID = setInterval(() => {
         if(!playerPress) {
-            console.log("--CANCELD INTERVAL--");
-            console.log("NEW ID   ", interID);
+            
+            
             clearInterval(interID);
             EndGame();
         }
@@ -85,12 +81,12 @@ function EndGame() {
     document.getElementById("display2").innerHTML = "00"
     FlashEnding();
     document.getElementById("start-button").style.pointerEvents = "all";
-    console.log("FIIIIIIIIIIIIN");
-    console.log("DEAD ID", interID);
+    
+    
     clearInterval(interID);
 
     topScore = parseInt(document.getElementById("display1").innerHTML)
-    console.log("TIP SOCRE", topScore);
+    
     lastScore = totalSimon-1;
 
     if (lastScore > topScore) {
@@ -129,13 +125,10 @@ const FlashEnding = async () => {
 async function ButtonPressed (button) {
     finish = false;
 
-    console.log("PRESSED ", button);
-
     // If the player presses a button while simon is still giving the sequence it ends the game
     if(simonSpeaking)
     {
         clearInterval(interID);
-        console.log("--WAIT FOR SIMON--");
         EndGame();
         finish = true;
     }
@@ -147,7 +140,6 @@ async function ButtonPressed (button) {
         PlayerSpeak();
     } 
     else{ // If the buttton is wrong the game ends
-        console.log("--WRONG BUTTON--", button, simon[playerCurrent], playerCurrent);
         EndGame();
         finish = true;
     } 
@@ -158,9 +150,7 @@ async function ButtonPressed (button) {
         // If the player passes 5, 9, or 13 colors the time is shortened
         if(totalSimon == 5 || totalSimon == 9 || totalSimon == 13)
         {
-            console.log("WAITTIME -- ", waitTime);
-            waitTime = waitTime/2;
-            console.log("WAITTIME -- ", waitTime);
+            waitTime = waitTime/2;            
         }
 
         clearInterval(interID);
@@ -178,27 +168,23 @@ async function ButtonPressed (button) {
 async function FlashGreen() {
     document.getElementById("top-left").style.backgroundColor = "lightgreen";
     await sleep(300)
-    console.log("GREEN");
     document.getElementById("top-left").style.backgroundColor = "green";
 }
 
 async function FlashRed() {
     document.getElementById("top-right").style.backgroundColor = "lightpink";
     await sleep(300)
-    console.log("RED");
     document.getElementById("top-right").style.backgroundColor = "red";
 }
 
 async function FlashYellow() {
     document.getElementById("bottom-left").style.backgroundColor = "lightgoldenrodyellow";
     await sleep(300)
-    console.log("YELLOW");
     document.getElementById("bottom-left").style.backgroundColor = "yellow";
 }
 
 async function FlashBlue() {
     document.getElementById("bottom-right").style.backgroundColor = "lightblue";
     await sleep(300)
-    console.log("BLUE");
     document.getElementById("bottom-right").style.backgroundColor = "blue";
 }
