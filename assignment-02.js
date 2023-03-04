@@ -7,23 +7,28 @@ let finish = false;
 let interID;
 let waitTime = 600;
 
+// Returns a random number from 0 - 3
 function getRandom() {
     return Math.floor(Math.random() * 4);
-  }
+}
 
+// When called uses a promise to wait the amount of secs provided
 const sleep = async (milliseconds) => {
     await new Promise(resolve => {
         return setTimeout(resolve, milliseconds)
     });
 };
 
+// Resets simons array, locks start button and changes led to green
 async function StartGame() {
+    document.getElementById("start-button").style.pointerEvents = "none";
     simon = [];
     document.getElementById("led").style.backgroundColor = "lightgreen";
     await sleep(2000);
     AddSimon();
 }
 
+// Adds random number to simons array
 function AddSimon() {
     simon.push(getRandom());
     totalSimon++;
@@ -31,6 +36,8 @@ function AddSimon() {
     SimonSpeak();
 }
 
+
+// Goes through simons array, flashes the colors and has the delay between them
 const SimonSpeak = async () => {
 
     simonSpeaking = true;
@@ -54,6 +61,8 @@ const SimonSpeak = async () => {
     PlayerSpeak();
 }
 
+
+// An interval with 5secs which checks if the player press a button or times them out
 function PlayerSpeak() {
 
     // console.log("FINSHD?", finish);
@@ -70,11 +79,12 @@ function PlayerSpeak() {
     }, 5000);
 }
 
-
+// Resets all flags, updates scores, changes led, unlocks start button
 function EndGame() {
     document.getElementById("led").style.backgroundColor = "red";
     document.getElementById("display2").innerHTML = "00"
     FlashEnding();
+    document.getElementById("start-button").style.pointerEvents = "all";
     console.log("FIIIIIIIIIIIIN");
     console.log("DEAD ID", interID);
     clearInterval(interID);
@@ -88,7 +98,6 @@ function EndGame() {
         document.getElementById("display1").innerHTML = score;
     }
 
-    
     playerCurrent = 0;
     simon = [];
     playerPress = false;
@@ -96,6 +105,7 @@ function EndGame() {
     waitTime = 600;
 }
 
+// Flashes all colors 5 times when game is lost
 const FlashEnding = async () => {
 
     for (let i = 0; i < 5; i++) {
@@ -115,13 +125,13 @@ const FlashEnding = async () => {
     }
 }
 
-
-
+// Checks if the button press is the correct button 
 async function ButtonPressed (button) {
     finish = false;
 
     console.log("PRESSED ", button);
 
+    // If the player presses a button while simon is still giving the sequence it ends the game
     if(simonSpeaking)
     {
         clearInterval(interID);
@@ -130,19 +140,22 @@ async function ButtonPressed (button) {
         finish = true;
     }
 
+    // Checks if the button press is correct if so it resets the 5sec interval and keeeps the cam going
     if(button == simon[playerCurrent]) {
         playerCurrent++;
         clearInterval(interID);
         PlayerSpeak();
     } 
-    else{
+    else{ // If the buttton is wrong the game ends
         console.log("--WRONG BUTTON--", button, simon[playerCurrent], playerCurrent);
         EndGame();
         finish = true;
     } 
 
+    // If the player correctly enters the current sequence then we remove the 5sec interval for now and add a new color
     if(playerCurrent == totalSimon && !finish){
 
+        // If the player passes 5, 9, or 13 colors the time is shortened
         if(totalSimon == 5 || totalSimon == 9 || totalSimon == 13)
         {
             console.log("WAITTIME -- ", waitTime);
@@ -161,6 +174,7 @@ async function ButtonPressed (button) {
 }
 
 
+// These functions just flash the color that Simon needs
 async function FlashGreen() {
     document.getElementById("top-left").style.backgroundColor = "lightgreen";
     await sleep(300)
