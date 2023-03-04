@@ -1,11 +1,11 @@
 let simon = []
 let simonSpeaking = false;
-let playerPress = false;
 let totalSimon = 0;
 let playerCurrent = 0;
-let interID;
-let waitTime = 1000;
+let playerPress = false;
 let finish = false;
+let interID;
+let waitTime = 600;
 
 function getRandom() {
     return Math.floor(Math.random() * 4);
@@ -20,7 +20,7 @@ const sleep = async (milliseconds) => {
 async function StartGame() {
     simon = [];
     document.getElementById("led").style.backgroundColor = "lightgreen";
-    await sleep(3000);
+    await sleep(2000);
     AddSimon();
 }
 
@@ -54,43 +54,15 @@ const SimonSpeak = async () => {
     PlayerSpeak();
 }
 
-async function FlashGreen() {
-    document.getElementById("top-left").style.backgroundColor = "lightgreen";
-    await sleep(350)
-    console.log("GREEN");
-    document.getElementById("top-left").style.backgroundColor = "green";
-}
-
-async function FlashRed() {
-    document.getElementById("top-right").style.backgroundColor = "lightpink";
-    await sleep(350)
-    console.log("RED");
-    document.getElementById("top-right").style.backgroundColor = "red";
-}
-
-async function FlashYellow() {
-    document.getElementById("bottom-left").style.backgroundColor = "lightgoldenrodyellow";
-    await sleep(350)
-    console.log("YELLOW");
-    document.getElementById("bottom-left").style.backgroundColor = "yellow";
-}
-
-async function FlashBlue() {
-    document.getElementById("bottom-right").style.backgroundColor = "lightblue";
-    await sleep(350)
-    console.log("BLUE");
-    document.getElementById("bottom-right").style.backgroundColor = "blue";
-}
-
 function PlayerSpeak() {
 
-    console.log("FINSHD?", finish);
+    // console.log("FINSHD?", finish);
     if(finish) return;
 
-    console.log("FINSHD?", finish);
+    // console.log("FINSHD?", finish);
     interID = setInterval(() => {
         if(!playerPress) {
-            console.log("CANCELD INTERVAL");
+            console.log("--CANCELD INTERVAL--");
             console.log("NEW ID   ", interID);
             clearInterval(interID);
             EndGame();
@@ -121,6 +93,7 @@ function EndGame() {
     simon = [];
     playerPress = false;
     totalSimon = 0;
+    waitTime = 600;
 }
 
 const FlashEnding = async () => {
@@ -147,30 +120,36 @@ const FlashEnding = async () => {
 async function ButtonPressed (button) {
     finish = false;
 
+    console.log("PRESSED ", button);
+
     if(simonSpeaking)
     {
         clearInterval(interID);
+        console.log("--WAIT FOR SIMON--");
         EndGame();
         finish = true;
     }
 
     if(button == simon[playerCurrent]) {
-
-        if(totalSimon == 5 || totalSimon == 9 || totalSimon == 13)
-        {
-            waitTime = waitTime - 250;
-        }
-
+        playerCurrent++;
         clearInterval(interID);
         PlayerSpeak();
-        playerCurrent++;
     } 
     else{
+        console.log("--WRONG BUTTON--", button, simon[playerCurrent], playerCurrent);
         EndGame();
         finish = true;
     } 
 
     if(playerCurrent == totalSimon && !finish){
+
+        if(totalSimon == 5 || totalSimon == 9 || totalSimon == 13)
+        {
+            console.log("WAITTIME -- ", waitTime);
+            waitTime = waitTime/2;
+            console.log("WAITTIME -- ", waitTime);
+        }
+
         clearInterval(interID);
         let score = playerCurrent >= 10 ? playerCurrent : "0" + playerCurrent;
         document.getElementById("display2").innerHTML = score;
@@ -179,4 +158,33 @@ async function ButtonPressed (button) {
         AddSimon();
     }
 
+}
+
+
+async function FlashGreen() {
+    document.getElementById("top-left").style.backgroundColor = "lightgreen";
+    await sleep(300)
+    console.log("GREEN");
+    document.getElementById("top-left").style.backgroundColor = "green";
+}
+
+async function FlashRed() {
+    document.getElementById("top-right").style.backgroundColor = "lightpink";
+    await sleep(300)
+    console.log("RED");
+    document.getElementById("top-right").style.backgroundColor = "red";
+}
+
+async function FlashYellow() {
+    document.getElementById("bottom-left").style.backgroundColor = "lightgoldenrodyellow";
+    await sleep(300)
+    console.log("YELLOW");
+    document.getElementById("bottom-left").style.backgroundColor = "yellow";
+}
+
+async function FlashBlue() {
+    document.getElementById("bottom-right").style.backgroundColor = "lightblue";
+    await sleep(300)
+    console.log("BLUE");
+    document.getElementById("bottom-right").style.backgroundColor = "blue";
 }
