@@ -1,3 +1,16 @@
+/**
+ * Luis Daniel Santiago Gutierrez 
+ * 22132503
+ * 
+ * Browsers Tested:
+ *      Google Chrome Versión 110.0.5481.178
+ *      FireFox Versión 110.0.5481.178
+ * 
+ * Operating System: 
+ *      Windows
+ */
+
+
 let simon = []
 let simonSpeaking = false;
 let totalSimon = 0;
@@ -5,7 +18,7 @@ let playerCurrent = 0;
 let playerPress = false;
 let finish = false;
 let interID;
-let waitTime = 600;
+let waitTime = 800;
 
 // Returns a random number from 0 - 3
 function getRandom() {
@@ -19,12 +32,20 @@ const sleep = async (milliseconds) => {
     });
 };
 
-// Resets simons array, locks start button and changes led to green
+// Resets simons array, changes led to green, locks buttons before the game starts in 3secs
 async function StartGame() {
     document.getElementById("start-button").style.pointerEvents = "none";
     simon = [];
     document.getElementById("led").style.backgroundColor = "lightgreen";
+    document.getElementById("top-left").style.pointerEvents = "none";
+    document.getElementById("top-right").style.pointerEvents = "none";
+    document.getElementById("bottom-left").style.pointerEvents = "none";
+    document.getElementById("bottom-right").style.pointerEvents = "none";
     await sleep(2000);
+    document.getElementById("top-left").style.pointerEvents = "all";
+    document.getElementById("top-right").style.pointerEvents = "all";
+    document.getElementById("bottom-left").style.pointerEvents = "all";
+    document.getElementById("bottom-right").style.pointerEvents = "all";
     AddSimon();
 }
 
@@ -55,19 +76,24 @@ const SimonSpeak = async () => {
 
     playerCurrent = 0;
     playerPress = false;
-    simonSpeaking = false;
+    simonSpeaking = false;    
+    if(totalSimon != 0)
     PlayerSpeak();
 }
 
 
-// An interval with 5secs which checks if the player press a button or times them out
+// An interval with 5secs which checks if the player pressed a button or times them out
 function PlayerSpeak() {
-
-    if(finish) return;
+    
+    if(finish) 
+    {
+        clearInterval(interID)
+        return;
+    }    
 
     interID = setInterval(() => {
-        if(!playerPress) {
-            clearInterval(interID);
+        if(!playerPress && totalSimon!=0) {
+            clearInterval(interID);            
             EndGame();
         }
     }, 5000);
@@ -75,12 +101,12 @@ function PlayerSpeak() {
 
 // Resets all flags, updates scores, changes led, unlocks start button
 function EndGame() {
+    clearInterval(interID);
     document.getElementById("led").style.backgroundColor = "red";
     document.getElementById("display2").innerHTML = "00"
     FlashEnding();
     document.getElementById("start-button").style.pointerEvents = "all";
     
-    clearInterval(interID);
 
     topScore = parseInt(document.getElementById("display1").innerHTML)
     lastScore = totalSimon-1;
@@ -93,8 +119,9 @@ function EndGame() {
     playerCurrent = 0;
     simon = [];
     playerPress = false;
+    finish = false;
     totalSimon = 0;
-    waitTime = 600;
+    waitTime = 800;
 }
 
 // Checks if the button press is the correct button 
@@ -106,10 +133,10 @@ async function ButtonPressed (button) {
     {
         clearInterval(interID);
         EndGame();
-        finish = true;
+        return
     }
 
-    // Checks if the button press is correct if so it resets the 5sec interval and keeeps the cam going
+    // Checks if the button press is correct if so it resets the 5sec interval and keeps the game going
     if(button == simon[playerCurrent]) {
         playerCurrent++;
         clearInterval(interID);
@@ -117,7 +144,7 @@ async function ButtonPressed (button) {
     } 
     else{ // If the buttton is wrong the game ends
         EndGame();
-        finish = true;
+        return;
     } 
 
     // If the player correctly enters the current sequence then we remove the 5sec interval for now and add a new color
@@ -129,11 +156,13 @@ async function ButtonPressed (button) {
             waitTime = waitTime/2;            
         }
 
+        // Update current score
         clearInterval(interID);
         let score = playerCurrent >= 10 ? playerCurrent : "0" + playerCurrent;
         document.getElementById("display2").innerHTML = score;
         playerCurrent = 0;
         await sleep(800);
+        finish = false;
         AddSimon();
     }
 
