@@ -4,7 +4,7 @@
  * 
  * Browsers Tested:
  *      Google Chrome Versión 110.0.5481.178
- *      FireFox Versión 110.0.5481.178
+ *      FireFox Versión 110.0.1
  * 
  * Operating System: 
  *      Windows
